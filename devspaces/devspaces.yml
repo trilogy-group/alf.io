@@ -1,0 +1,65 @@
+--- # devspaces.yml
+name: ds-alf-io
+description:  Development environment for alf.io
+
+# If you want to use a different Dockerfile for your DevSpace, provide the path
+# here.
+docker-file: Dockerfile
+
+ports:
+- protocol: http # can be udp|tcp|http
+  port-number: 8080
+  description: web app http port
+environment-vars:
+  - name: POSTGRES_PORT_5432_TCP_PORT
+    value: 5432
+  - name: POSTGRES_PORT_5432_TCP_ADDR
+    value: 127.0.0.1
+  - name: POSTGRES_ENV_POSTGRES_DB
+    value: alfio
+  - name: POSTGRES_ENV_POSTGRES_USERNAME
+    value: alfio
+  - name: POSTGRES_ENV_POSTGRES_PASSWORD
+    value: alfio
+  - name: SPRING_PROFILES_ACTIVE
+    value: dev,jdbc-session
+
+  - name: POSTGRES_DB
+    value: alfio
+  - name: POSTGRES_USER
+    value: alfio
+  - name: POSTGRES_PASSWORD
+    value: alfio
+
+# If you need additional files when building your Dockerfile, such as some
+# application binaries that your Dockerfile references, list the glob paths to
+# include here. They are relative to this devspaces.yml file.
+docker-build-includes: |
+  **/*
+
+# generic `build` filter cannot be used once we have a source package named `build`.
+sync-ignore: |
+  .git
+  .idea
+  /target/
+  .classpath
+  .project
+  .settings/
+  .idea/
+  .gradle/
+  build/
+  *.iml
+  *.ipr
+  *.iws
+  /build/
+  deploy*.sh
+  custom.jvmargs
+  classes/
+  logs/
+  /bin/
+  .DS_Store
+  out/
+  .clever.json
+  !/src/main/webapp/resources/bower_components/angular-growl-v2/build/
+  alfio-itest
+
